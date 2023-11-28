@@ -1,5 +1,10 @@
+// import { ajoutListenerConnection} from "./login.js";
+
 const galleryNode = document.querySelector(".gallery");
 const filtersNode = document.querySelector(".filters");
+// on appel la fonction pour ajouter le listener au formulaire de connection
+// ajoutListenerConnection()
+
 /**
  * récupérer les données de la route /api/works
  */
@@ -9,7 +14,6 @@ async function getWorks() {
       return reponse.json();
     }
   );
-  console.log(worksResults);
   return worksResults;
 }
 
@@ -17,31 +21,44 @@ async function getWorks() {
  * récupérer les données de la route /api/categories
  */
 async function getFilters() {
-  const filtersResults = await fetch("http://localhost:5678/api/categories").then(
-    (reponse) => {
-      return reponse.json();
-    }
-  );
-  console.log(filtersResults);
+  const filtersResults = await fetch(
+    "http://localhost:5678/api/categories"
+  ).then((reponse) => {
+    return reponse.json();
+  });
   return filtersResults;
+}
+
+function resetDisplayWorks() {
+  galleryNode.innerHTML = "";
 }
 
 /**
  * Parcours les travaux et les affiches dans le DOM
  */
-function displayWorks(dataWorks) {
-  for (let i = 0; i < dataWorks.length; i++) {
-    // Création des balises dédiées à chaque projet
-    const projet = document.createElement("article");
-    projet.classList.add("projet__box");
+function displayWorks(works) {
+  // on réinitialise la galerie des projets
+  resetDisplayWorks();
 
-    projet.innerHTML = `
-      <img src="${dataWorks[i].imageUrl}" alt="" />
-      <p>${dataWorks[i].title}</p>
+  // on parcours la liste des projets, et on on les affiches dans le DOM
+  for (let i = 0; i < works.length; i++) {
+    displayWork(works[i]);
+  }
+
+  //works.forEach(work => displayWork(work))
+}
+
+function displayWork(work) {
+  // Création des balises dédiées à chaque projet
+  const projet = document.createElement("article");
+  projet.classList.add("projet__box");
+
+  projet.innerHTML = `
+      <img src="${work.imageUrl}" alt="" />
+      <p>${work.title}</p>
     `;
 
-    galleryNode.appendChild(projet);
-  }
+  galleryNode.appendChild(projet);
 }
 
 /**
@@ -51,9 +68,9 @@ function displayFilters(dataFilters) {
   for (let i = 0; i < dataFilters.length; i++) {
     // Création des balises dédiées à chaque projet
     const filter = document.createElement("button");
-    filter.setAttribute ("type","button")
+    filter.setAttribute("type", "button");
     filter.classList.add("btn");
-    filter.classList.add(`filter${dataFilters[i].id}`)
+    filter.setAttribute("data-id", dataFilters[i].id);
 
     filter.innerHTML = `
     ${dataFilters[i].name}
@@ -71,11 +88,51 @@ async function init() {
   const works = await getWorks();
   displayWorks(works);
 
+  //TODO : ajouter le bouton "tous"
+
   // Affichage des filtres
   const filters = await getFilters();
   displayFilters(filters);
+
+  const filtersBtns = document.querySelectorAll(".filters .btn");
+  filtersBtns.forEach((button) => {
+    button.addEventListener("click", async () => {
+      // on défini un id pour chaque bouton
+      const id = button.getAttribute("data-id");
+
+      // on récupère la liste des projets via la fonction getworks
+      const list = await getWorks();
+
+      /*
+      const projects = [];
+
+      list.forEach((project) => {
+        const categoryId = project.categoryId;
+
+        if (id == -1 || categoryId == id) {
+          projects.push(project);
+        }
+      });
+      */
+
+      const newList = list.filter(
+        (project) => id === "-1" || project.category.id === parseInt(id)
+      );
+
+      displayWorks(newList);
+
+      // TODO : Ajouter la classe active lorsque l'on clique sur le bouton
+    });
+  });
+
+  /**
+   * selection du btn actif en fonction du filtre selectionné
+   */
+
+  // for (let i = 0; i < filters.length; i++) {
+  //   filter[i].classList.remove("btn__active");
+  // }
+  // filter[activeFilter].classList.add("btn__active");
 }
 
 init();
-
-
