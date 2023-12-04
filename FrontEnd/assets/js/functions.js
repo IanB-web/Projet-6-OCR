@@ -1,9 +1,6 @@
-// import { ajoutListenerConnection} from "./login.js";
 
 const galleryNode = document.querySelector(".gallery");
 const filtersNode = document.querySelector(".filters");
-// on appel la fonction pour ajouter le listener au formulaire de connection
-// ajoutListenerConnection()
 
 /**
  * récupérer les données de la route /api/works
@@ -122,17 +119,14 @@ async function init() {
       displayWorks(newList);
 
       // TODO : Ajouter la classe active lorsque l'on clique sur le bouton
+      // for (let i = 0; i < filters.length; i++){
+      //     filtersBtns.classList.remove("btn__active");
+      //   }
+      button.classList.add("btn__active")
+
     });
   });
 
-  /**
-   * selection du btn actif en fonction du filtre selectionné
-   */
-
-  // for (let i = 0; i < filters.length; i++) {
-  //   filter[i].classList.remove("btn__active");
-  // }
-  // filter[activeFilter].classList.add("btn__active");
-}
+};
 
 init();

@@ -1,82 +1,60 @@
-const loginForm = document.querySelector(".form");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const error = document.querySelector(".error");
 
-// écoute de la modification de l'Email
-loginForm.email.addEventListener("change", function () {
-  validEmail(this);
-});
+// récupération des balises html nécessaires au process
+const loginForm = document.querySelector(".form");
+const errorMsg = document.querySelector(".error");
 
-// ******** Validation EMAIL ************
-const validEmail = function (inputEmail) {
+// écoute de la modification de l'Email
+loginForm.email.addEventListener("keyup", displayCheckForm);
+loginForm.password.addEventListener("keyup", displayCheckForm);
+
+/**    ******** Validation EMAIL ************
+ * 
+ * Retourne vrai si l'email à un format correct, faux sinon
+ */
+function emailFormatIsValid(emailToCheck) {
   // creation de la reg[ulière] exp[ression] pour la validation email
-  let emailRegExp = new RegExp(
+  let regex = new RegExp(
     "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
     "g"
   );
 
-  // récupéraction de la balise <small>
-  let small = inputEmail.nextElementSibling;
-  // on teste l'expression régulière
-  let testEmail = emailRegExp.test(inputEmail.value);
-  if (testEmail) {
-    small.innerHTML = "Format Email valide";
-    small.classList.add("valid");
-    small.classList.remove("error");
+  return regex.test(emailToCheck);
+}
+
+/**    ******** Validation PASSWORD ************
+ * 
+ * Retourne vrai si le password a un format correct, faux sinon
+ */
+function passwordFormatIsValid(passwordToCheck) {
+  return true;
+}
+
+/**
+ *  création listener login
+ */
+function displayCheckForm() {
+  if (
+    !emailFormatIsValid(loginForm.email.value) ||
+    !passwordFormatIsValid(loginForm.password.value)
+  ) {
+    // On affichera l'erreur
+    errorMsg.textContent = "Identifiants incorrects";
+    errorMsg.classList.add("error");
+    return false;
   } else {
-    small.innerHTML = "Format Email non valide";
-    small.classList.remove("valid");
-    small.classList.add("error");
-  }
-};
-
-// action du bouton d'envoi du formulaire
-// loginForm.addEventListener("submit", function (e) {
-//   let passwordInput = document.getElementById("password");
-
-//   if (emailInput.value.trim() == "") {
-//     error.innerHTML = "Le champ email est requis.";
-//     e.preventDefault();
-//   } else if (passwordInput.value.trim() == "") {
-//     error.innerHTML = "Le champ mot de passe est requis.";
-//     e.preventDefault();
-//   } else {
-//     loginForm.submit();
-//   }
-// });
-
-// création listener login
-
-// création de la fonction pour se déconnecter
-function deconnect() {
-  const logLink = document.querySelector(".log");
-
-  if (logLink) {
-    // vérification si le token est déjà stocké dans le local storage
-    if (localStorage.getItem("token")) {
-      // si le token est présent on change le texte en "logout"
-      logLink.textContent = "logout";
-
-      // ajout du de l'event au click sur "logout"
-      logLink.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        // on supprime le token stocké dans le local storage
-        localStorage.removeItem("token");
-
-        // on se redirige vers la page login
-        window.location.href = "login.html";
-      });
-    }
+    errorMsg.textContent = "";
+    errorMsg.classList.remove("error");
+    return true;
   }
 }
 
-async function logCheck() {
-  // récupération des balises html nécessaires au process
-  const loginForm = document.querySelector(".form");
-  const errorMsg = document.querySelector(".error");
-
+/**
+ *
+ */
+async function init() {
   // Vérification formulaire
   if (loginForm) {
     loginForm.addEventListener("submit", async function (event) {
@@ -88,43 +66,68 @@ async function logCheck() {
         password: passwordInput.value.trim(),
       };
 
-      try {
-        // appel de la fonction fetch avec les valeurs remplies
-        const response = await fetch("http://localhost:5678/api/users/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(user),
-        });
-
-        // vérification de la réponse
-        if (response.status === 401) {
-          errorMsg.textContent = "Mot de passe incorrect.";
-          errorMsg.classList.add("error");
-        } else if (response.status === 404) {
-          errorMsg.textContent = "Erreur, utilisateur inconu.";
-          errorMsg.classList.add("error");
-        } else if (response.ok) {
-          // si la réponse est réussie, on récupère les données en JSON
-          const result = await response.json();
-
-          // on vérifie ensuite le token
-          if (result && result.token) {
-            // stockage du token dans le local storage
-            localStorage.setItem("token", result.token);
-
-            // redirection vers la page d'acceuil
-            window.location.href = "http://127.0.0.1:5501/index.html";
-
-            // changement du texte du lien une fois connecté
-            deconnect();
-          }
-        }
-      } catch (error) {
-        // message en cas d'erreurs de requetes ou de connection
-        console.error("Erreur lors de la requête d'authentification", error);
+      // Vérification du format
+      if (!displayCheckForm()) {
+        return;
       }
+
+      // Envoi des données au serveur
+      const response = await fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      })
+        .then((response) => {
+          // gestion d'erreur
+          if (response.status != 200) {
+            throw new Error("Une erreur est survenue");
+          }
+
+          return response.json();
+        })
+        .then((data) => {
+          // stockage du token dans le local storage
+          localStorage.setItem("token", data.token);
+
+          // redirection vers la page d'acceuil
+          window.location.href = "/";
+        })
+        .catch((error) => {
+          errorMsg.textContent = "Identifiants incorrects";
+          errorMsg.classList.add("error");
+
+          localStorage.removeItem("token");
+        });
     });
   }
 }
 
-logCheck();
+init();
+
+/**
+ *  On a un formulaire de connexion (email / password)
+ *  => On veux à la soumission du formulaire envoyer les données au serveur pour demander es-ce que l'utilisateur existe ?
+ *  ===> Si oui alors le serveur retourne un token => on sauvegarde le token en localstorage
+ *  ===> Si non, on affiche un message d'erreur à l'utilisateur dans un <p>
+ *
+ * => Pour éviter des requetes inutiles (mauvais format email / password)
+ * ==> Pré-vérifier le format des données
+ * ====> OK le format est correct, on envoi les données au serveur
+ * ====> KO, le format est incorrect, on affiche un message d'erreur sans envoyer les données au serveur
+ *
+ *
+ *
+ * Lorsque soumission du formulaire
+ * => Récupérer les données (email / password)
+ * => Vérifie le format des données
+ * ==> Soit le format est OK
+ * ===> Envoi ces données via fetch (en post) au serveur (on utilise la route adéquate, /login avec le verbe POST)
+ * ====> En fonction de la réponse du serveur
+ * =====> 200: Soit sauvegarde du token en localStorage et redirige vers la page d'accueil
+ * =====> Autre code: On affiche un message d'erreur
+ * ==> Soit le format est mauvais : Affiche un message d'erreur
+ *
+ *
+ */

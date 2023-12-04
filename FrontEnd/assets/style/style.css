@@ -143,13 +143,34 @@ body {
 }
 header {
 	display: flex;
-	justify-content: space-between;
-	margin: 50px 0;
+	flex-direction: column;
 }
+
 section {
 	margin: 50px 0;
 }
-
+.edition {
+	display: flex;
+	flex-direction: row;
+	height: 60px;
+	background-color: black;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	gap: 10px;
+	font-family: Work Sans;
+	font-size: 16px;
+	font-weight: 400;
+}
+.hidden {
+	height: 0;
+}
+.navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 50px 0;
+}
 h1 {
 	display: flex;
 	flex-direction: column;
@@ -287,18 +308,18 @@ footer nav ul {
 
 /* partie projets */
 .filters {
-display: flex;
-flex-direction: row;
-justify-content: center;
-margin: 50px 0 50px 0;
-gap:10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 50px 0 50px 0;
+	gap: 10px;
 }
 
 .btn {
 	height: 37px;
 	flex-shrink: 0;
 	border-radius: 60px;
-	
+
 	border: 1px solid var(--color-green);
 	color: var(--color-green);
 	background-color: var(--color-white);
@@ -313,17 +334,17 @@ gap:10px;
 
 .btn__active {
 	background-color: var(--color-green);
-	color:var(--color-white);
+	color: var(--color-white);
 }
 
 .btn:hover {
 	background-color: var(--color-green);
-	color:var(--color-white);
+	color: var(--color-white);
 }
 
 .btn:active {
 	background-color: var(--color-darkgreen);
-	color:var(--color-white);
+	color: var(--color-white);
 }
 
 .projet__box {
