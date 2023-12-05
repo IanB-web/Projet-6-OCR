@@ -6,7 +6,7 @@ const error = document.querySelector(".error");
 const loginForm = document.querySelector(".form");
 const errorMsg = document.querySelector(".error");
 
-// écoute de la modification de l'Email
+// écoute de la modification de l'Email et du password
 loginForm.email.addEventListener("keyup", displayCheckForm);
 loginForm.password.addEventListener("keyup", displayCheckForm);
 
@@ -20,7 +20,7 @@ function emailFormatIsValid(emailToCheck) {
     "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
     "g"
   );
-
+  
   return regex.test(emailToCheck);
 }
 
@@ -29,11 +29,15 @@ function emailFormatIsValid(emailToCheck) {
  * Retourne vrai si le password a un format correct, faux sinon
  */
 function passwordFormatIsValid(passwordToCheck) {
+//     let regex = new RegExp(
+//     "^[a-zA-Z]\w{3,8}$"
+//   );
+//   return regex.test(passwordToCheck);
   return true;
 }
 
 /**
- *  création listener login
+ *  création listener login correct / incorrect
  */
 function displayCheckForm() {
   if (
@@ -52,7 +56,7 @@ function displayCheckForm() {
 }
 
 /**
- *
+ * initialisation des actions de validations/ou non du formulaire
  */
 async function init() {
   // Vérification formulaire

@@ -1,9 +1,18 @@
-const token = localStorage.getItem("token");
-const edition = document.querySelector(".edition");
-const logLink = document.querySelector(".log");
+// définition des constantes récurentes
 
+const token = localStorage.getItem("token");
+const editionBand = document.querySelector(".edition");
+const logLink = document.querySelector(".log");
+const openModalBtn = document.querySelector(".change__btn");
+
+
+
+// conditionnement token pour affichage de l'index "créateur"
 if (token) {
-  edition.classList.remove("hidden");
+
+  // on affiche les élements de base montrant que l'on peut éditer du contenu
+  openModalBtn.style.display = "flex";
+  editionBand.classList.remove("hidden");
   // on change le texte "login" en "logout"
   logLink.innerHTML = `logout`;
   // ajout du de l'event au click sur "logout"
@@ -17,5 +26,9 @@ if (token) {
     // on se redirige vers la page login
     window.location.href = "/";
   });
-}
 
+  // création de la fonction click pour l'apparition de la modale
+  openModalBtn.addEventListener("click", function() {
+    
+  })
+}
