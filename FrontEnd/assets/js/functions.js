@@ -49,6 +49,7 @@ function displayWork(work) {
   // Création des balises dédiées à chaque projet
   const projet = document.createElement("article");
   projet.classList.add("projet__box");
+  projet.setAttribute(`data-id`, `${work.id}`)
 
   projet.innerHTML = `
       <img src="${work.imageUrl}" alt="" />

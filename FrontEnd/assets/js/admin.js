@@ -6,17 +6,16 @@ const logLink = document.querySelector(".log");
 const openModalBtn = document.querySelector(".change__btn");
 
 /**
-     * Récupération des travaux(projets) présents dans le backend
-     */
-    async function getWorks() {
-      const worksResults = await fetch("http://localhost:5678/api/works").then(
-        (reponse) => {
-          return reponse.json();
-        }
-      );
-      return worksResults;
+ * Récupération des travaux(projets) présents dans le backend
+ */
+async function getWorks() {
+  const worksResults = await fetch("http://localhost:5678/api/works").then(
+    (reponse) => {
+      return reponse.json();
     }
-
+  );
+  return worksResults;
+}
 
 // conditionnement token pour affichage de l'index "créateur"
 if (token) {
@@ -61,7 +60,6 @@ if (token) {
     // récupération du bouton pour fermer la modal + ajout de l'eventListener
     let modalCloseBtn = document.querySelector(".modal__close--btn");
     const modalContent = document.querySelector(".modal__content");
-    
 
     modalCloseBtn.addEventListener("click", function (event) {
       event.preventDefault();
@@ -73,19 +71,27 @@ if (token) {
      *     Création des balises dédiées à chaque projet
      */
     let modalGallery = document.querySelector(".modal__gallery");
-
+    /**
+     * Parcours les travaux et les affiches dans le DOM
+     */
+    function modalDisplayWorks(works) {
+      // on parcours la liste des projets, et on on les affiches dans le DOM
+      for (let i = 0; i < works.length; i++) {
+        modalDisplayWork(works[i]);
+      }
+    }
     function modalDisplayWork(work) {
-      const projet = document.createElement("article");
-      projet.classList.add("modal__box");
+      const project = document.createElement("article");
+      project.classList.add("modal__box");
 
-      projet.innerHTML = `
+      project.innerHTML = `
       <img src="${work.imageUrl}" alt="${work.title}" />
       <button class="modal__work--btn" data-id="${work.id}">
         <i class="fa-solid fa-trash-can"></i>
       </button>
     `;
 
-      modalGallery.appendChild(projet);
+      modalGallery.appendChild(project);
     }
 
     async function modalInit() {
@@ -111,7 +117,7 @@ if (token) {
   }
 
   /**
-   *
+   * Fonction pour supprimer un projet de l'API + du site web
    */
   async function deleteProjects(projectIdToDelete) {
     await fetch(`http://localhost:5678/api/works/${projectIdToDelete}`, {
@@ -121,7 +127,8 @@ if (token) {
       },
     }).then((response) => {
       console.log(response);
-      /// Supprimier visuellement le projet dans la modal
+
+      // Supprimer visuellement le projet dans la modal
       const button = document.querySelector(
         `.modal__work--btn[data-id="${projectIdToDelete}"]`
       );
@@ -129,12 +136,13 @@ if (token) {
       parent.remove();
 
       /// Supprimer visuellement le projet sur l'accueil
+      const project = document.querySelector(
+        `.projet__box[data-id="${projectIdToDelete}"]`
+      );
+      project.remove();
     });
   }
 }
-
-
-
 
 /**
  * <input type="file" accept="image/*" onchange="loadFile(event)">
