@@ -278,6 +278,7 @@ li:hover {
 	margin: 60px 0 50px 0;
 }
 .modal__add--btn {
+.modal__add--btn {
 	display: flex;
 
 	height: 37px;
@@ -297,9 +298,11 @@ li:hover {
 	transition: 0.3s;
 }
 .modal__add--btn:hover {
+.modal__add--btn:hover {
 	color: var(--color-green);
 	background-color: var(--color-white);
 }
+.modal__add--btn:active {
 .modal__add--btn:active {
 	color: var(--color-white);
 	background-color: var(--color-green);
@@ -310,6 +313,7 @@ li:hover {
 	position: relative;
 	left: 275px;
 	top: 30px;
+	cursor: pointer;
 	cursor: pointer;
 }
 .modal__gallery {
@@ -341,11 +345,15 @@ li:hover {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	justify-content: center;
+	align-items: center;
 	justify-self: center;
 	align-items: center;
 	font-size: 12px;
+	font-size: 12px;
 	color: #fff;
 }
+.modal__work--btn {
 .modal__work--btn {
 	background-color: #000;
 	display: block;
@@ -353,10 +361,17 @@ li:hover {
 	z-index: 4;
 	right: 5px;
 	top: 5px;
+	right: 5px;
+	top: 5px;
 
 	width: 19px;
 	height: 19px;
+	width: 19px;
+	height: 19px;
 	border-radius: 2px;
+}
+.modal__work--btn:hover {
+	cursor: pointer;
 }
 .modal__work--btn:hover {
 	cursor: pointer;
