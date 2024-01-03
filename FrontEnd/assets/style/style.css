@@ -278,7 +278,6 @@ li:hover {
 	margin: 60px 0 50px 0;
 }
 .modal__add--btn {
-.modal__add--btn {
 	display: flex;
 
 	height: 37px;
@@ -298,11 +297,9 @@ li:hover {
 	transition: 0.3s;
 }
 .modal__add--btn:hover {
-.modal__add--btn:hover {
 	color: var(--color-green);
 	background-color: var(--color-white);
 }
-.modal__add--btn:active {
 .modal__add--btn:active {
 	color: var(--color-white);
 	background-color: var(--color-green);
@@ -353,7 +350,6 @@ li:hover {
 	font-size: 12px;
 	color: #fff;
 }
-.modal__work--btn {
 .modal__work--btn {
 	background-color: #000;
 	display: block;
@@ -600,10 +596,10 @@ input[type="text"] {
 	fill: #b9c5cc;
 }
 .input__label {
-	display:flex ;
+	display: flex;
 	position: absolute;
-	left:37%;
-	top:42%;
+	left: 37%;
+	top: 42%;
 	justify-content: center;
 	align-items: center;
 	width: 173px;
@@ -618,12 +614,12 @@ input[type="text"] {
 }
 .input__text {
 	position: absolute;
-	left:44%;
-	top:48%;
+	left: 44%;
+	top: 48%;
 	color: #444;
 
-text-align: center;
-font-family: Work Sans;
-font-size: 10px;
-font-weight: 400;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 10px;
+	font-weight: 400;
 }

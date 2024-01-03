@@ -160,8 +160,7 @@ if (token) {
       function modalDisplayWork(work) {
         const project = document.createElement("article");
         project.classList.add("modal__box");
-
-        project.innerHTML = `
+        
         project.innerHTML = `
       <img src="${work.imageUrl}" alt="${work.title}" />
       <button class="modal__work--btn" data-id="${work.id}">
