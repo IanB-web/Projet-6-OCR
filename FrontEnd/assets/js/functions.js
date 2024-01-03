@@ -1,4 +1,3 @@
-
 const galleryNode = document.querySelector(".gallery");
 const filtersNode = document.querySelector(".filters");
 
@@ -49,6 +48,7 @@ function displayWork(work) {
   // Création des balises dédiées à chaque projet
   const projet = document.createElement("article");
   projet.classList.add("projet__box");
+  projet.setAttribute(`data-id`, `${work.id}`);
 
   projet.innerHTML = `
       <img src="${work.imageUrl}" alt="" />
@@ -113,20 +113,19 @@ async function init() {
       */
 
       const newList = list.filter(
-        (project) => id === "-1" || project.category.id === parseInt(id)
+        (project) => id === "0" || project.category.id === parseInt(id)
       );
 
       displayWorks(newList);
 
-      // TODO : Ajouter la classe active lorsque l'on clique sur le bouton
-      // for (let i = 0; i < filters.length; i++){
-      //     filtersBtns.classList.remove("btn__active");
-      //   }
-      button.classList.add("btn__active")
+      // Ajouter la classe active lorsque l'on clique sur le bouton
+      
+      document.querySelectorAll(".filters .btn").forEach(button => {
+      button.classList.remove("btn__active");})
 
+      button.classList.add("btn__active");
     });
   });
-
-};
+}
 
 init();
