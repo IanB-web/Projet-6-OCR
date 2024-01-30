@@ -85,8 +85,6 @@ async function init() {
   const works = await getWorks();
   displayWorks(works);
 
-  //TODO : ajouter le bouton "tous"
-
   // Affichage des filtres
   const filters = await getFilters();
   displayFilters(filters);
@@ -118,7 +116,7 @@ async function init() {
 
       displayWorks(newList);
 
-      // Ajouter la classe active lorsque l'on clique sur le bouton
+      // Ajoute la classe active lorsque l'on clique sur le bouton et l'enleve sur les autres boutons
       
       document.querySelectorAll(".filters .btn").forEach(button => {
       button.classList.remove("btn__active");})
