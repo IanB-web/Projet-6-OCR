@@ -153,8 +153,6 @@ if (token) {
             Authorization: `Bearer ${token}`,
           },
         }).then((response) => {
-          console.log(response);
-
           // Supprimer visuellement le projet dans la modal
           const button = document.querySelector(
             `.modal__work--btn[data-id="${projectIdToDelete}"]`
