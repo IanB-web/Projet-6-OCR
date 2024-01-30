@@ -29,10 +29,10 @@ function emailFormatIsValid(emailToCheck) {
  * Retourne vrai si le password a un format correct, faux sinon
  */
 function passwordFormatIsValid(passwordToCheck) {
-//     let regex = new RegExp(
+//     let regexPass = new RegExpPass(
 //     "^[a-zA-Z]\w{3,8}$"
 //   );
-//   return regex.test(passwordToCheck);
+//   return regexPass.test(passwordToCheck);
   return true;
 }
 
@@ -112,13 +112,13 @@ init();
 
 /**
  *  On a un formulaire de connexion (email / password)
- *  => On veux à la soumission du formulaire envoyer les données au serveur pour demander es-ce que l'utilisateur existe ?
+ *  => On veux à la soumission du formulaire envoyer les données au serveur pour demander est-ce que l'utilisateur existe ?
  *  ===> Si oui alors le serveur retourne un token => on sauvegarde le token en localstorage
  *  ===> Si non, on affiche un message d'erreur à l'utilisateur dans un <p>
  *
  * => Pour éviter des requetes inutiles (mauvais format email / password)
  * ==> Pré-vérifier le format des données
- * ====> OK le format est correct, on envoi les données au serveur
+ * ====> OK le format est correct, on envoie les données au serveur
  * ====> KO, le format est incorrect, on affiche un message d'erreur sans envoyer les données au serveur
  *
  *
