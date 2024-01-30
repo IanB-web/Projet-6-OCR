@@ -318,7 +318,7 @@ li:hover {
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 7px;
-	padding: 0 100px 40px 100px;
+	padding: 0 100px 0px 100px;
 }
 .modal__gallery::after {
 	background-color: #b3b3b3;
@@ -530,6 +530,7 @@ footer nav ul {
 	justify-content: center;
 	width: 240px;
 	height: 36px;
+	margin-top: 30px;
 }
 
 .modal__form {
@@ -592,14 +593,14 @@ input[type="text"] {
 .input__svg {
 	position: absolute;
 	left: 45%;
-	top: 30%;
+	top: 28%;
 	fill: #b9c5cc;
 }
 .input__label {
 	display: flex;
 	position: absolute;
 	left: 37%;
-	top: 42%;
+	top: 39%;
 	justify-content: center;
 	align-items: center;
 	width: 173px;
@@ -615,11 +616,14 @@ input[type="text"] {
 .input__text {
 	position: absolute;
 	left: 44%;
-	top: 48%;
+	top: 45%;
 	color: #444;
 
 	text-align: center;
 	font-family: Work Sans;
 	font-size: 10px;
 	font-weight: 400;
+}
+.title--add{
+	margin-top: 40px;
 }
